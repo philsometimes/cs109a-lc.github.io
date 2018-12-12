@@ -1,0 +1,47 @@
+<section id="results">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Results</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Interpretation and conclusions</h2>
+                    <h4>2007 predictor coefficients</h4>
+                    <img src="img/results/2007.png" class="img-responsive">
+                    <h4>2016 predictor coefficients</h4>
+                    <img src="img/results/2016.png" class="img-responsive">
+
+                    <p class="text-muted">The reason we created separate models for the 2007 and 2016 data is because we thought that these different economic circumstances would result in differences in determining whether an individual would default. Our hypothesis is confirmed, as we can see from the above plots that the magnitude of predictors varies significantly from the two models.</p>
+                    <ul>
+                      <li>A higher debt to income ratio meant a much higher likelihood of default in 2016, but is next to useless as a predictor in 2007. It’s likely that a pattern like 2016 reflects “normal” behavior, while the financial crisis 2007 was so exceptional of a circumstance that people were defaulting regardless of their income bracket. </li>
+                      <li>More open accounts indicates a greater likelihood of default in 2016, which is the relationship we would expect: opening and maintaining a large number of accounts is typically risky borrowing behavior. This predictor is insignificant in 2007, which may be another instance of the financial crisis overriding normal economic expectations, leading to borrowers defaulting across the risk spectrum.</li>
+                      <li>Borrowers who maintained a high revolving balance were less likely to default in 2016 than in 2007, but borrowers with high credit utilization were about twice as likely to default in 2016 than in 2007. We may be seeing the effects of greater economic optimism in 2016, reflected by borrowers taking out larger loans for ventures.</li>
+                      <li>The effect of housing situation also changes between the years. Having a mortgage indicates a smaller likelihood of default, in both years, but the effect is much stronger in 2016. At the same time, being a renter is a strong predictor of default in 2016, but barely matters in 2007. This difference is almost certainly the result of the housing bubble and subprime mortgage crisis in 2007. While on balance having a mortgage still meant you were less likely to default, many high-risk borrowers were approved for mortgages and subsequently defaulted, pulling mortgage-holders as a category down. Renting is associated with a greater likelihood of default in both years, but the effect is much stronger in 2016. This may indicate a healthier housing market in 2016, where interest rates are still low but lenders are taking fewer risks. The people qualified to buy rather than rent are generally able to do it, which leaves the riskier borrowers as the people who are only able to rent.</li>
+                      <li>Perhaps one of the most interesting disparities is with the employment length (emp_length) predictor. In 2016, a longer employment length indicates that the individual is less likely to default, as expected. However, we surprisingly see that a longer employment length indicates a higher probability of default in the 2007 data. It is possible that due to the smaller sample size this is an odd coincidence. An alternative explanation is that in the Recession of 2008, many individuals were laid off. It was often the higher paid employees, or those who had been employed longer, who were fired as their labor was more expensive. Thus, it is possible that a higher employment length increased the chances of being fired and consequently defaulting on a loan. On the other hand, there are certainly predictors that remain relatively similar between the two models such as annual income, inquiries in the last 6 months, and total accounts</li>
+
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Future Work</h2>
+                    <h3>Better Computing</h3>
+                    <p>We were somewhat limited by our computing power for certain models. For example, we had to limit the depth of the Decision Tree and number of estimators for our AdaBoost model on the 2016 data because it was so computationally expensive. Additionally, we were unable to utilize a k-NN model to predict 2016 data due to lack of computing power. We could further enhance the complexity of our models if we were to have access to a better computer in the future.</p>
+                    <h3>Enhanced Data</h3>
+                    <p>Although we had access to dozens of predictors, more extensive data would be useful. Helpful indicators may include education, number of dependents, gender, and race. However, we must note that there are certainly moral implications of considering some of these as predictors. Nonetheless, more predictors inevitably can help us reach a more accurate result.</p>
+                </div>
+            </div>
+            
+
+
+
+
+        </div>
+    </div>
+</section>
