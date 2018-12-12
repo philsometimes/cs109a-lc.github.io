@@ -1,0 +1,837 @@
+<section id="models">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Models</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Model 0: Trivial Model</h2>
+                    <p class="text-muted">We implemented a trivial model that always predicts a given person will repay their loan. It is worth noting that this model is representative of Lending Club's prediction. Since we only have access to accepted loan data, Lending Club is inherently predicting that a loan will be repayed because they wouldn't give a loan that they expected not to be repayed.</p>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Trivial Model in which all loans are accepted</span>
+                    <span class="n">triv_mod_07_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">df_07_y_train</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_07_y_train</span><span class="p">)</span>
+                    <span class="n">triv_mod_07_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">df_07_y_test</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_07_y_test</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2007 Data</span><span class="se">\n</span><span class="s1">Train score: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">triv_mod_07_train</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test score: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">triv_mod_07_test</span><span class="p">))</span>
+                    <span class="n">triv_mod_16_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">df_16_y_train</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_16_y_train</span><span class="p">)</span>
+                    <span class="n">triv_mod_16_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">df_16_y_test</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_16_y_test</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;2016 Data</span><span class="se">\n</span><span class="s1">Train score: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">triv_mod_16_train</span><span class="p">))</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test score: &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">triv_mod_16_test</span><span class="p">))</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <pre>2007 Data
+                    Train score: 0.7361229718189581
+                    Test score: 0.7133105802047781
+                    2016 Data
+                    Train score: 0.7512421109171479
+                    Test score: 0.7471074010249983
+                    </pre>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Model 1: Logistic Regression</h2>
+                    <p class="text-muted">The first model we chose is a simple logistic regression with cross validation. We trained it on the training set and printed the scores on both the training and test data sets. The test accuracy was 0.737 which is just below our trivial model's score- meaning it performs moderately worse than Lending Club's algorithm.</p>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Logistic regression on 2007 data</span>
+                    <span class="n">log_mod07</span> <span class="o">=</span> <span class="n">LogisticRegressionCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="n">log_mod07_train_score</span> <span class="o">=</span> <span class="n">log_mod07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span><span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">log_mod07_test_score</span> <span class="o">=</span><span class="n">log_mod07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span><span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Logistic Regression Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">log_mod07_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Logistic Regression Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">log_mod07_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Logistic Regression Model on 2007 Training Set is  0.7361229718189581</p>
+                    <p>The accuracy of Logistic Regression Model on 2007 Testing Set is  0.7133105802047781
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Logistic regression on 2016 data</span>
+                    <span class="n">log_mod16</span> <span class="o">=</span> <span class="n">LogisticRegressionCV</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="n">log_mod16_train_score</span> <span class="o">=</span> <span class="n">log_mod16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">log_mod16_test_score</span> <span class="o">=</span> <span class="n">log_mod16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Logistic Regression Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">log_mod16_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Logistic Regression Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">log_mod16_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Logistic Regression Model on 2016 Training Set is  0.7573295734300166</p>
+                    <p>The accuracy of Logistic Regression Model on 2016 Testing Set is  0.7533066266812882
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Model 2: Decision Tree Model</h2>
+                    <p class="text-muted">To create a Decision Tree model, we began by optimizing the tree depth. Our optimal depth was found to be max_depth =i. Depths past i appeared to be overfit, yielding great train accuracies, and poor test accuracies. We then ran the model on both 2007 and 2016 data. The model yielded comparable accuracies to that of Lending Club's.</p>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get train score, cross val score means and stds</span>
+                    <span class="n">train_scores</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">cvmeans</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">cvstds</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">depths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+                    <span class="c1">#for all specified maximum tree depths --&gt; fit model and add scores to list</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">depths</span><span class="p">:</span>
+                        <span class="c1">#create/fit model</span>
+                        <span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                        <span class="n">train_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+                        <span class="n">score</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+                        <span class="n">cvmeans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+                        <span class="n">cvstds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+
+                    <span class="n">cvstds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cvstds</span><span class="p">)</span>
+                    <span class="n">cvmeans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cvmeans</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#create plot</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">cvmeans</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Mean Cross Val&quot;</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">cvmeans</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">cvstds</span><span class="p">,</span> <span class="n">cvmeans</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">cvstds</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">ylim</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">()</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">depths</span><span class="p">,</span> <span class="n">train_scores</span><span class="p">,</span> <span class="s1">&#39;-+&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Train&quot;</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Max Depth&quot;</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">depths</span><span class="p">)</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Cross Val Score and Train Score vs Depth&quot;</span><span class="p">);</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+
+
+                    <div class="output_png output_subarea ">
+                    <img src="data:image/png;base64,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N39mvB9//LEYOnSo/vGoUaNEaGioEEKIHTt2CFdXV4MkExERISIjI59Z34uSiJ+fnz4BDB06NMsXunv37gl3d3fx+++/CyF070vr1q31f4tCCLF06VLh4eEhHjx4IIQQIiAgQMycOVO/PSQkRHTs2NGg3q+++koEBQU9M668IvtEXsHjNuynm55epGLFigaPL168mKUduVq1ahQrVozIyEiaN29Ov379WLhwIb/99ht169YlICCAdu3aoVAocHd3p127dowbN465c+dSv359GjduTFBQ0HPj6NKlCz/99BNHjx6lQYMGbN68mSJFivDuu+/q96lTpw4lSpRg/vz5xMbGEh8fr28C02q1Rj/nKlWqMH78eEDXYXzkyBF+++03Ro0ahaOjI40bNyYyMpKGDRsaHOfn54efnx+JiYncvXuX2rVrG2yvU6cOAJGRkfpmsadf36SkJG7dusX333/PggUL9OXiUZPL5cuXKV26dJZ427dvz9GjR5kxYwZxcXHExsYSHR2No6OjwX6VK1c2eFykSBF9E0RUVBTu7u4GfUu+vr5GvFrGqVixokFHe07fq6efQ5EiRQCe29QHuqZIf39/1Go1Fy5c4MCBAyxfvpxPPvmE8PBwhBDcunULb29vg+O6desGwObNmwGyfT+XL19OUlKSwfN87MKFCwB89NFHBs9drVajUqnIzMzMti+vc+fOjBo1ipSUFMzNzdm1axejRo0CoEmTJtSrV4++fftSsmRJGjZsSGBgIC1atHjua/AsQghSU1MpVqwYAOfPn+fq1avUqlXLYD+tVsvly5f1j+vWrYtC8aR3wcfHh8zMTC5fvpzldXysUqVKBo/t7e31zbv5SSaRV1C+fHkcHR05ffo0bdq0ybI9JSWFgQMH0rt3bxo1agSAlZWVUXVrNBosLCwAGDp0KKGhoezfv5+jR48ya9YsFi9ezKpVq3B0dGTatGmEhYVx4MABjh49yrfffsvy5ctZuXIllpaWz4y9Xr16/P777zRo0ICNGzfSsWNH/TlB98c+cuRIfX9Cp06dePDgAYMGDTLqOdy5c4f58+cTGhqq/5B3dnbG2dmZjh070rx5c/bu3Uvjxo1z1JH/OBk8HfPTr+/j7V999RX+/v5Zji9ZsmS29Y4ZM4YdO3bQoUMHAgIC6NOnDzt27GDr1q0G+z193v+eMzu5NVgByPK+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
+                    "
+                    >
+                    </div>
+
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># tree model for 2007 data</span>
+                    <span class="n">tree07</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="n">tree07_train_score</span> <span class="o">=</span> <span class="n">tree07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">tree07_test_score</span> <span class="o">=</span> <span class="n">tree07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Tree Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">tree07_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Tree Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">tree07_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Tree Model on 2007 Training Set is  0.748932536293766
+                    </p><p>The accuracy of Tree Model on 2007 Testing Set is  0.7047781569965871
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># tree model for 2016 data</span>
+                    <span class="n">tree16</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="n">tree16_train_score</span> <span class="o">=</span> <span class="n">tree16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">tree16_test_score</span> <span class="o">=</span> <span class="n">tree16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Tree Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">tree16_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Tree Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">tree16_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Tree Model on 2016 Training Set is  0.7532003938946332</p><p>
+                    The accuracy of Tree Model on 2016 Testing Set is  0.749390148378578
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Model 3: Random Forest Model</h2>
+                    <p class="text-muted">Next we wanted to create an ensemble model, building off our decision tree model. We stuck with our best max depth of 6, and chose to use 45 trees because it provided solid accuracy, without being too computationally expensive. Our model, again, yielded comparable results ot that of Lending Club.</p>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="n">randy07</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">randy07_train_score</span> <span class="o">=</span> <span class="n">randy07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">randy07_test_score</span> <span class="o">=</span> <span class="n">randy07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Random Forest Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">randy07_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Random Forest Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">randy07_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Random Forest Model on 2007 Training Set is  0.7395388556789069</p><p>
+                    The accuracy of Random Forest Model on 2007 Testing Set is  0.7133105802047781
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+                    <div class="cell border-box-sizing code_cell rendered">
+                    <div class="input">
+                    <div class="inner_cell">
+                        <div class="input_area">
+                    <div class=" highlight hl-ipython3"><pre><span></span><span class="n">randy16</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span> <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">randy16_train_score</span> <span class="o">=</span> <span class="n">randy16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="n">randy16_test_score</span> <span class="o">=</span> <span class="n">randy16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Random Forest Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">randy16_train_score</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Random Forest Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">randy16_test_score</span><span class="p">)</span>
+                    </pre></div>
+
+                    </div>
+                    </div>
+                    </div>
+
+                    <div class="output_wrapper">
+                    <div class="output">
+
+
+                    <div class="output_area">
+                    <div class="prompt"></div>
+
+                    <div class="output_subarea output_stream output_stdout output_text">
+                    <p>The accuracy of Random Forest Model on 2016 Training Set is  0.7512421109171479</p><p>
+                    The accuracy of Random Forest Model on 2016 Testing Set is  0.7471074010249983
+                    </p>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-lg-offset-0">
+              <div class="section-heading">
+                  <h2>Model 4: AdaBoost Model</h2>
+                  <p class="text-muted">We used an AdaBoost model. This meta estimator fits a decision tree classifier on our training set, then fits additional copies of the model on the same training set, but adjusts weights such that subsequent classifiers focus on challenging cases. For the 2016 dataset, we had to reduce the max depth and estimators to limit the computational time of the model. Both models delivered comparable accuracies to that of Lending Club's model.</p>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">ada07</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">ada07_train_score</span> <span class="o">=</span> <span class="n">ada07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">ada07_test_score</span> <span class="o">=</span> <span class="n">ada07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Ada Boost Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">ada07_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Ada Boost Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">ada07_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Ada Boost Model on 2007 Training Set is  1.0</p><p>
+                  The accuracy of Ada Boost Model on 2007 Testing Set is  0.7030716723549488
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Takes a while to run</span>
+                  <span class="n">ada16</span> <span class="o">=</span> <span class="n">AdaBoostClassifier</span><span class="p">(</span><span class="n">base_estimator</span><span class="o">=</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">ada16_train_score</span> <span class="o">=</span> <span class="n">ada16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">ada16_test_score</span> <span class="o">=</span> <span class="n">ada16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Ada Boost Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">ada16_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Ada Boost Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">ada16_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Ada Boost Model on 2016 Training Set is  0.7542746519851394</p><p>
+                  The accuracy of Ada Boost Model on 2016 Testing Set is  0.7508896000716156
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-12 col-lg-offset-0">
+              <div class="section-heading">
+                  <h2>Model 5: Gradient Boosting Classifier</h2>
+                  <p class="text-muted">We used Gradient Boosting (GB) for classification. GB is an additive model in a forward stage-wise fashion. It allows for the optimization of arbitrary differentiable loss functions. In our case we only used a single regression tree because we are interested in a binary classification. This model did decently well on 2016 data.</p>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">GB_07</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                                   <span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="p">)</span>
+                  <span class="n">GB_07_train_score</span> <span class="o">=</span> <span class="n">GB_07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="p">)</span>
+                  <span class="n">GB_07_test_score</span> <span class="o">=</span> <span class="n">GB_07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Gradient Boost Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">GB_07_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Gradient Boost Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">GB_07_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Gradient Boost Model on 2007 Training Set is  0.7745516652433817</p><p>
+                  The accuracy of Gradient Boost Model on 2007 Testing Set is  0.6911262798634812
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">GB_16</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                                   <span class="n">max_depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="p">)</span>
+                  <span class="n">GB_16_train_score</span> <span class="o">=</span> <span class="n">GB_16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="p">)</span>
+                  <span class="n">GB_16_test_score</span> <span class="o">=</span> <span class="n">GB_16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Gradient Boost Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">GB_16_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Gradient Boost Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">GB_16_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Gradient Boost Model on 2016 Training Set is  0.7568595855154201</p><p>
+                  The accuracy of Gradient Boost Model on 2016 Testing Set is  0.752791889532932
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-12 col-lg-offset-0">
+              <div class="section-heading">
+                  <h2>Model 6: LDA Model</h2>
+                  <p class="text-muted">Next, we chose to use linear discriminant analysis. Unsurprisingly, our LDA models performed similarly to the trivial models.</p>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Build an LDA Model and report train and test accuracy</span>
+                  <span class="n">lda07</span> <span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">lda07_train_score</span> <span class="o">=</span> <span class="n">lda07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">lda07_test_score</span> <span class="o">=</span> <span class="n">lda07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of LDA Model on 2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">lda07_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of LDA Model on 2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">lda07_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of LDA Model on 2007 Training Set is  0.7382578992314262</p><p>
+                  The accuracy of LDA Model on 2007 Testing Set is  0.7201365187713311
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#Build an LDA Model and report train and test accuracy</span>
+                  <span class="n">lda16</span> <span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">lda16_train_score</span> <span class="o">=</span> <span class="n">lda16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">lda16_test_score</span> <span class="o">=</span> <span class="n">lda16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of LDA Model on 2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">lda16_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of LDA Model on 2016 Testing Set is &quot;</span><span class="p">,</span> <span class="n">lda16_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of LDA Model on 2016 Training Set is  0.7560818674186474</p><p>
+                  The accuracy of LDA Model on 2016 Testing Set is  0.7532171071772262
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-12 col-lg-offset-0">
+              <div class="section-heading">
+                  <h2>Model 7: QDA Model</h2>
+                  <p class="text-muted">We were suprised that this model performed extremely poorly. It assumes gaussian distribution and differing covariance, which seemingly contributes to its poor performance with these datasets.</p>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">qda07</span> <span class="o">=</span> <span class="n">QuadraticDiscriminantAnalysis</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                  <span class="n">qda07_train_score</span> <span class="o">=</span> <span class="n">qda07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">qda07_test_score</span> <span class="o">=</span> <span class="n">qda07</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">,</span> <span class="n">df_07_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of QDA Model on Training Set is &quot;</span><span class="p">,</span> <span class="n">qda07_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of QDA Model on Testing Set is &quot;</span><span class="p">,</span> <span class="n">qda07_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of QDA Model on Training Set is  0.27156276686592656</p><p>
+                  The accuracy of QDA Model on Testing Set is  0.28668941979522183
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">qda16</span> <span class="o">=</span> <span class="n">QuadraticDiscriminantAnalysis</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                  <span class="n">qda16_train_score</span> <span class="o">=</span> <span class="n">qda16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">qda16_test_score</span> <span class="o">=</span> <span class="n">qda16</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">,</span> <span class="n">df_16_y_test</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of QDA Model on Training Set is &quot;</span><span class="p">,</span> <span class="n">qda16_train_score</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of QDA Model on Testing Set is &quot;</span><span class="p">,</span> <span class="n">qda16_test_score</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of QDA Model on Training Set is  0.7445783536994763</p><p>
+                  The accuracy of QDA Model on Testing Set is  0.7400129803280889
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-lg-12 col-lg-offset-0">
+              <div class="section-heading">
+                  <h2>Model 8: Artificial Neural Network</h2>
+                  <p class="text-muted">Finally, we used Keras resting on Tensorflow to build a neural network for both datasets. </p>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 2007 NN</span>
+
+                  <span class="n">H</span> <span class="o">=</span> <span class="mi">100</span>
+                  <span class="n">input_dim_07</span> <span class="o">=</span> <span class="mi">71</span>
+
+                  <span class="n">NN_07</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+
+                  <span class="n">NN_07</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="n">input_dim_07</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+                  <span class="n">NN_07</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">):</span>
+                      <span class="n">NN_07</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+                      <span class="n">NN_07</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+
+                  <span class="n">NN_07</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
+
+                  <span class="n">NN_07</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
+                            <span class="n">optimizer</span> <span class="o">=</span> <span class="s1">&#39;rmsprop&#39;</span><span class="p">,</span>
+                            <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+                  <span class="n">NN_07</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">,</span> <span class="n">df_07_y_train</span><span class="p">,</span>
+                        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+                        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+
+
+
+
+
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nn_07_train_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">NN_07</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">df_07_X_train</span><span class="p">),</span> <span class="n">df_07_y_train</span><span class="p">)</span>
+                  <span class="n">nn_07_test_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">NN_07</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">df_07_X_test</span><span class="p">),</span> <span class="n">df_07_y_test</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Neural Network  on  2007 Training Set is &quot;</span><span class="p">,</span> <span class="n">nn_07_train_accuracy</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Neural Network  on  2007 Testing Set is &quot;</span><span class="p">,</span> <span class="n">nn_07_test_accuracy</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Neural Network  on  2007 Training Set is  0.7361229718189581</p><p>
+                  The accuracy of Neural Network  on  2007 Testing Set is  0.7133105802047781
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#2016 NN</span>
+                  <span class="n">H</span> <span class="o">=</span> <span class="mi">100</span>
+                  <span class="n">input_dim_16</span> <span class="o">=</span> <span class="mi">70</span>
+
+                  <span class="n">NN_16</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+
+                  <span class="n">NN_16</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">input_dim</span> <span class="o">=</span> <span class="n">input_dim_16</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+                  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+                      <span class="n">NN_16</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+                      <span class="n">NN_16</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span>
+
+                  <span class="n">NN_16</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
+
+                  <span class="n">NN_16</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span>
+                            <span class="n">optimizer</span> <span class="o">=</span> <span class="n">RMSprop</span><span class="p">(),</span>
+                            <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span>
+
+                  <span class="n">NN_16</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">,</span> <span class="n">df_16_y_train</span><span class="p">,</span>
+                        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+                        <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+
+
+
+
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+                  <div class="cell border-box-sizing code_cell rendered">
+                  <div class="input">
+                  <div class="inner_cell">
+                      <div class="input_area">
+                  <div class=" highlight hl-ipython3"><pre><span></span><span class="n">nn_16_train_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">NN_16</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">df_16_X_train</span><span class="p">),</span> <span class="n">df_16_y_train</span><span class="p">)</span>
+                  <span class="n">nn_16_test_accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">NN_16</span><span class="o">.</span><span class="n">predict_classes</span><span class="p">(</span><span class="n">df_16_X_test</span><span class="p">),</span> <span class="n">df_16_y_test</span><span class="p">)</span>
+
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Neural Network  on  2016 Training Set is &quot;</span><span class="p">,</span> <span class="n">nn_07_train_accuracy</span><span class="p">)</span>
+                  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The accuracy of Neural Network  on  2016  Testing Set is &quot;</span><span class="p">,</span> <span class="n">nn_07_test_accuracy</span><span class="p">)</span>
+                  </pre></div>
+
+                  </div>
+                  </div>
+                  </div>
+
+                  <div class="output_wrapper">
+                  <div class="output">
+
+
+                  <div class="output_area">
+                  <div class="prompt"></div>
+
+                  <div class="output_subarea output_stream output_stdout output_text">
+                  <p>The accuracy of Neural Network  on  2016 Training Set is  0.7361229718189581</p><p>
+                  The accuracy of Neural Network  on  2016  Testing Set is  0.7133105802047781
+                  </p>
+                  </div>
+                  </div>
+
+                  </div>
+                  </div>
+
+                  </div>
+              </div>
+          </div>
+
+
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,57 @@
+<section id="eda">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">Exploratory Data Analysis</h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-lg-offset-0 text-center">
+                <div class="section-heading">
+                    <h2>Data Description</h2>
+                    <p class="text-muted">Our data contains complete loan data (both categorical and numerical) for all loans issued in 2007 and 2016, including the current loan status (Current, Late, Fully Paid, etc.) and latest payment information. Columns include information on the loan such as Loan Amount, Interest Rate, Grade, and Term. There is also significant data on the borrower such as Employment Length and Title, Annual Income, Zip Code, and Home Ownership. The response variable will be Loan Status, which indicates whether the borrower has defaulted. In total, there are 145 columns but many of these are filled entirely with NaN’s. Seemingly useful columns contain missing values and thus we must be sure to clean our dataset before use.</p>
+                </div>
+            </div>
+            <div class="col-lg-12 col-lg-offset-0 text-center">
+                <div class="section-heading">
+                    <h2>Visualizations and Analysis</h2>
+                    <p class="text-muted">We began by trying to understand the geographical distribution of loans across the country. As shown in the graph below, majority of the loans appear to be in states next to the oceans (perhaps because of big cities). Fewer loans are offered in states in the middle of America. We anticipated that because of the financial crisis of 2008, the growth of the loans issued in and around 2008 will be fewer and then we would see a growth in loans as the financial crisis eased and the economy began to boom. This is highlighted by the hockey stick growth in loan amounts in the graph below. This further validates our hypothesis that there should be different models depending on the macro-level economic situation.</p>
+                    <img src="img/eda/eda1.png" class="img-responsive">
+                    <p class="text-muted">Because our target response variable is whether an individual would default or not, we anticipate that home ownership can be a predictor. The graphs below shows the amount of loan awarded by the home ownership status. It seems like individuals with mortgages get most loans while individuals with no home and those who rent homes, get the least amount of loans. We also observe that home ownership does impact one’s loan status.</p>
+                    <img src="img/eda/eda2.png" class="img-responsive">
+                    <img src="img/eda/eda3.png" class="img-responsive">
+                    <p class="text-muted">We anticipated annual income to be one of the primary predictors of if an individual would default. Intuitively, it seems to make sense that someone making a higher salary would be more financially stable and thus more likely to pay off the loan. To begin to analyze this hypothesis, we plotted the annual income of individuals in paid and defaulted loans in adjacent subplots. This plot is zoomed in on the bulk of the data point and some outliers that lie above this range, particularly in the paid data set. From these plots it becomes clear that our original hypothesis was true. Above the income level of roughly $200,000, the vast majority of borrowers pay back their loans. However, we must not that there may be some ethical implications involved in weighting this too heavily in our model.</p>
+                    <img src="img/eda/eda4.png" class="img-responsive">
+                    <p class="text-muted">We thought that the reason for a loan would be good predictor of whether or not someone defaulted on their loan. We see from the graph above that the reasons that lead to highest rate of default are Small Business, Renewable Energy, and Education. Small business makes sense intuitively as a very high percentage of newly formed businesses fail in their early years and are unable to pay off their creditors. Renewable Energy could have such a high default rate for similar reasons. Renewable Energy was, and continues to be, a budding industry and thus most people pursuing it may be in the early stages of their business. Education makes sense because, on average, people pursuing education are typically young and at stages in their lives where there is great uncertainty. The top 3 reasons for being most likely to pay off debt are wedding, major purchase, and car. These make sense because they are less risky and people getting married, buying a car, or making a major purchase, like a house, are typically at more stable points in their lives. If a person is getting married, or buying a house or car, they are most likely financially stable and thus are more likely to pay back a loan. It seems that likelihood of paying back a loan is anticorrelated with riskiness of reason for getting that loan. This makes sense and falls in line with our original hypothesis.</p>
+                    <img src="img/eda/eda5.png" class="img-responsive">
+                    <p class="text-muted">Pair plots are a powerful tool for understanding the structure of a dataset, and figuring out which of our predictors are correlated with one another can help us decide which ones to select for model-fitting. At a glance, we can see some expected relationships (e.g. loan amount, funded amount, and instalment amount are all obviously positively correlated with one another.</p>
+                    <p class="text-muted">Looking along the diagonal, where predictors are plotted against themselves, we see a couple of cases of interesting separation between paid (red) and defaulted (blue) cases in the kernel density functions. The vast majority of long-term loans (3,3) get paid off, indicating that LendingClub might be more conservative in granting these risker longer loans. The interest rate (4,4) KDE is slightly shifted to the right for the default cases, which suggests that bad borrowers are either getting assigned higher interest rates, or higher interest is a factor in defaults. Moving on to the number of delinquencies in the last two years (10,10), we see that bad borrowers are much more likely to have a few recent delinquencies, but interestingly a small number of the “good” paid-off loans are showing a very high number of recent delinquencies—these are likely edge case individuals. The number of inquiries in the last 6 months (11,11) and revolving balance (15,15) are likely both major factors in LendingClub’s decisions, as the defaults have a much longer tail to the right in both cases. Finally, the revolving line utilization rate (16,16) shows some of the clearest separation between good and bad borrowers, with the rightward shift of the defaults suggesting that bad borrowers tend to use much more of the credit available to them.</p>
+                    <p class="text-muted">From the pair plot,​ <b>loan amount,funded amount,</b>  ​​and​ <b>instalment amount</b> ​​are​ ​​all positively correlated, and could be usefully combined with a PCA. Meanwhile, ​<b>term length, interest rate, number of delinquencies, number of recent inquiries, revolving balance,</b> ​​and​ <b>revolving line utilization</b> ​​are probably the most informative predictors in this set, and should definitely be included and up-weighted in the model.</p>
+                    <p class="text-muted">We also wanted to know if there was a relationship between installment amount and default rate in the two years (2007, 2016) we chose to study.</p>
+                    <img src="img/eda/instaldefault07.png" class="img-responsive">
+                    <img src="img/eda/instaldefault16.png" class="img-responsive">
+                    <p class="text-muted">There is no visible relationship between installment amount and default rate in either year.</p>
+                    <p class="text-muted">We also wanted to know if loan status was correlated with annual income.</p>
+                    <img src="img/eda/incomedefault07.png" class="img-responsive">
+                    <img src="img/eda/incomedefault16.png" class="img-responsive">
+                    <p class="text-muted">It appears that individuals with higher incomes (>70k) tend to pay their loans in both years. </p>
+                    <p class="text-muted">We wondered if there was a pattern in home ownership and default rate...</p>
+                    <img src="img/eda/homedefault07.png" class="img-responsive">
+                    <img src="img/eda/homedefault16.png" class="img-responsive">
+                    <p class="text-muted">...but did not detect any reasonable pattern in either year.</p>
+                    <img src="img/eda/loansbystate1.png" class="img-responsive">
+                    <p class="text-muted">Most of the loans appear to be distributed around the States in the West Coast and New England in 2007...</p>
+                    <img src="img/eda/loansbystate2.png" class="img-responsive">
+                    <p class="text-muted">...as well as in 2016.</p>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
