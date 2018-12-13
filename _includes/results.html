@@ -30,14 +30,22 @@
             </div>
             <div class="col-lg-12 col-lg-offset-0">
                 <div class="section-heading">
-                    <h2>Future Work</h2>
-                    <h3>Better Computing</h3>
-                    <p>We were somewhat limited by our computing power for certain models. For example, we had to limit the depth of the Decision Tree and number of estimators for our AdaBoost model on the 2016 data because it was so computationally expensive. Additionally, we were unable to utilize a k-NN model to predict 2016 data due to lack of computing power. We could further enhance the complexity of our models if we were to have access to a better computer in the future.</p>
-                    <h3>Enhanced Data</h3>
-                    <p>Although we had access to dozens of predictors, more extensive data would be useful. Helpful indicators may include education, number of dependents, gender, and race. However, we must note that there are certainly moral implications of considering some of these as predictors. Nonetheless, more predictors inevitably can help us reach a more accurate result.</p>
+                    <h2>Current Recommendations</h2>
+                    <p>We set out to build a model that would predict the probability of default among loans accepted by the Lending club in two different markets—a bull market (2016) and a bear market (2007). It is important to understand that as shown above, most of the models that we used were quite comparable, our recommendations are then based the size and quality of the market data that an investor has access to and the costs the investor is willing to incur. </p>
+                    <p>In a bear market like 2007, the first challenge is that of data. In bad market conditions, investors retreat and as such we do not have access to a lot of loan data. It is therefore important that investors in computationally more expensive models such as ensemble models should be considered.</p>
+                    <p>In bull markets like 2016, there is access to a lot of data because LC is offering a lot of loans. Simple and computationally inexpensive models like Logistic Regression  and Decision Classifier models can achieve high accuracy. </p>
                 </div>
             </div>
-            
+            <div class="col-lg-12 col-lg-offset-0">
+                <div class="section-heading">
+                    <h2>Future Work</h2>
+                    <h3>Better Computing</h3>
+                    <p>We were limited by our computing power for certain models. For example, we had to limit the depth of our Decision Trees, n_estimators for our AdaBoost model and the depths of our neural networks. Additionally, we were unable to utilize a k-NN model or a SVM classifier to predict 2016 data due to a lack of computer power. We could further enhance the complexity of our models if we were to have access to a better computer in the future.</p>
+                    <h3>Enhanced Data</h3>
+                    <p>Although we had access to dozens of predictors, more extensive data would be useful. Helpful indicators may include education, number of dependents, gender,  race and similar demographics. However any model that utilizes these predictors must be cognizant of their moral implications. Special care has to be made to avoid discrimination against certain demographics. Nonetheless, more predictors inevitably can help us reach a more accurate result.</p>
+                </div>
+            </div>
+
 
 
 
